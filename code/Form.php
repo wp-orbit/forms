@@ -38,6 +38,11 @@ class Form
         $this->templater = new DefaultFormTemplater( $this );
     }
 
+    public function setTemplater( $templaterClass )
+    {
+        $this->templater = new $templaterClass( $this );
+    }
+
     /**
      * @return string
      */
@@ -51,18 +56,26 @@ class Form
         return;
     }
 
-    public function save()
+    /**
+     * Get the form field data necessary for updating.
+     * @return array
+     */
+    public function getSaveFields()
     {
-        $nonceKey = '_nonce_' . $this->id;
-        $nonceAction = 'form-' . $this->id;
+        $output = [
+            'nonceKey' => '_nonce_' . $this->id,
+            'nonceAction' => 'form-' . $this->id,
+            'fields' => []
+        ];
 
-        if ( ! isset( $_POST[$nonceKey] ) ) {
-            throw new \Exception( "No security token supplied." );
+        foreach( $this->fields->all() as $field )
+        {
+            $output['fields'][] = [
+                'type' => $field->getType(),
+                'key' => $field->getName(),
+            ];
         }
 
-        if ( ! wp_verify_nonce( $_POST[$nonceKey], $nonceAction ) ) {
-            throw new \Exception( "Invalid security token supplied." );
-        }
-
+        return $output;
     }
 }

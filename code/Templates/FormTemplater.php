@@ -59,10 +59,18 @@ abstract class FormTemplater
         return $output;
     }
 
+    public function renderToken()
+    {
+        return "\t" . wp_nonce_field( 'form-' . $this->form->id, '_nonce_' . $this->form->id, true, false ) . "\n";
+    }
+
+    /**
+     * Returns the token and closes the form.
+     * @return string
+     */
     public function getFormFooter()
     {
-        $string = "\t" . wp_nonce_field( 'form-' . $this->form->id, '_nonce_' . $this->form->id, true, false ) . "\n";
-        return $string . '</form>';
+        return $this->renderToken() . '</form>';
     }
 
     public function renderForm()

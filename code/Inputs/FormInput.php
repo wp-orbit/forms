@@ -51,6 +51,11 @@ abstract class FormInput
         return $this->label;
     }
 
+    public function getName()
+    {
+        return $this->fieldId;
+    }
+
     public function getType()
     {
         return $this->type;
@@ -127,7 +132,10 @@ abstract class FormInput
      */
     protected function getAttributes( $exclude = [] )
     {
+        // Prepare attributes.
         $this->prepareAttributes();
+
+        // Return the rendered attributes string.
         return $this->attributes->render( $exclude );
     }
 

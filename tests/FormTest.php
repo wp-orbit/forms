@@ -9,9 +9,14 @@ class FormTest extends \WPOrbit\Tests\TestCase
     public function setUp()
     {
         parent::setUp();
+
+        // Make the form.
         $this->form = new \WPOrbit\Forms\Form( 'test-form' );
 
+        // Optionally specify the templater class.
+        $this->form->setTemplater( \WPOrbit\Forms\Templates\DefaultFieldTemplater::class );
 
+        // Add fields.
         $this->form->fields->addField(
             new \WPOrbit\Forms\Inputs\TextInput([
                 'id' => 'test',
@@ -30,5 +35,10 @@ class FormTest extends \WPOrbit\Tests\TestCase
     public function testCanDoFormFields()
     {
         dump( $this->form->render() );
+    }
+
+    public function testCanGetSaveData()
+    {
+        dump( $this->form->getSaveFields() );
     }
 }
