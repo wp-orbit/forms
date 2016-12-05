@@ -19,6 +19,12 @@ class TextAreaInput extends FormInput
         parent::__construct( $args );
         $this->tag = 'textarea';
         $this->type = 'textarea';
+
+        if ( isset( $args['cols'] ) ) {
+            $this->setAttribute( 'rows', $args['rows'] );
+        } else {
+            $this->setAttribute( 'rows', 3 );
+        }
     }
 
     /**

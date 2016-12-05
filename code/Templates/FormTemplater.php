@@ -19,7 +19,7 @@ abstract class FormTemplater
 
         // Set the label.
         if ( $field->getLabel() ) {
-            $output .= "\t\t" . '<label>' . $field->getLabel() . '</label>' . "\n";
+            $output .= "\t\t" . '<label for="' . $field->getName() . '">' . $field->getLabel() . '</label><br>' . "\n";
         }
 
         $output .= "\t\t" . $field->render() . "\n";

@@ -46,6 +46,12 @@ abstract class FormInput
         return $this->value;
     }
 
+    public function setValue($value)
+    {
+        $this->value = $value;
+        $this->setAttribute( 'value', $value );
+    }
+
     public function getLabel()
     {
         return $this->label;

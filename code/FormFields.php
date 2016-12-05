@@ -8,7 +8,7 @@ class FormFields
     /**
      * @var FormInput[]
      */
-    protected $fields = [];
+    public $fields = [];
 
     /**
      * @return FormInput[]
