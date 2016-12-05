@@ -69,6 +69,18 @@ abstract class FormTemplater
         return ob_get_clean();
     }
 
+    protected function _renderColorPicker( FormInput $field )
+    {
+        ob_start();
+        $field->setAttribute('style', 'width: 200px; position: relative; top: -10px;');
+        ?>
+        <label for="<?= $field->getName(); ?>"><?= $field->getLabel(); ?></label><br>
+        <div id="<?= $field->getName(); ?>-preview" style="display: inline-block;"></div>
+        <?= $field->render(); ?>
+        <button id="<?= $field->getName(); ?>-hide-preview" type="button" class="button" style="display: none;">Hide Preview</button>
+        <?php
+        return ob_get_clean();
+    }
 
     public function renderField( FormInput $field )
     {
@@ -80,6 +92,10 @@ abstract class FormTemplater
 
         switch( $field->getType() )
         {
+            case 'color-picker':
+                $output .= $this->_renderColorPicker( $field );
+                break;
+
             // Render HTML.
             case 'html':
                 $output .= $field->getValue();
