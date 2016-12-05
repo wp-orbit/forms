@@ -40,6 +40,39 @@ abstract class FormInput
     protected $attributes;
 
     /**
+     * @var array
+     */
+    protected $options = [];
+
+    /**
+     * @return array
+     */
+    public function getOptions()
+    {
+        return $this->options;
+    }
+
+    /**
+     * @param $options
+     */
+    public function setOptions( array $options )
+    {
+        $this->options = $options;
+    }
+
+    protected $checkedValue;
+
+    public function getCheckedValue()
+    {
+        return $this->checkedValue;
+    }
+
+    public function setCheckedValue($value)
+    {
+        $this->checkedValue = $value;
+    }
+
+    /**
      * @return bool|null
      */
     public function getValue()
@@ -56,6 +89,11 @@ abstract class FormInput
     public function getLabel()
     {
         return $this->label;
+    }
+
+    public function setLabel($label)
+    {
+        $this->label = $label;
     }
 
     public function getName()
@@ -75,6 +113,11 @@ abstract class FormInput
     public function setAttribute($key, $value)
     {
         $this->attributes->setAttribute( $key, $value );
+    }
+
+    public function removeAttribute($key)
+    {
+        $this->attributes->unsetAttribute( $key );
     }
 
     public function getAttribute($key)

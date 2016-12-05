@@ -20,12 +20,27 @@ class PostMetaContext extends FormContext
         {
             switch( $field->getType() )
             {
+                case 'html':
+                    break;
+
                 case 'checkbox-boolean':
                     $meta = get_post_meta( $postId, $field->getName(), true );
                     if ( 'true' == $meta ) {
                         $field->setAttribute( 'checked', 'checked' );
                     }
                     break;
+
+                case 'radio':
+                    $meta = get_post_meta( $postId, $field->getName(), true );
+                    $field->setCheckedValue( $meta );
+                    break;
+
+                case 'radio-boolean':
+                    $meta = get_post_meta( $postId, $field->getName(), true );
+                    $meta = 'true' == $meta ? 'true' : 'false';
+                    $field->setCheckedValue( $meta );
+                    break;
+
 
                 default:
                     // Set the field value.

@@ -39,6 +39,14 @@ class FormInputAttributes
         return null;
     }
 
+    public function unsetAttribute( $key )
+    {
+        if ( isset( $this->attributes[$key] ) )
+        {
+            unset( $this->attributes[$key] );
+        }
+    }
+
     /**
      * Render the attributes string.
      * @param array $exclude Attributes to exclude from rendering.

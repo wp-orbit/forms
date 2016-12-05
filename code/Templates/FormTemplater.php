@@ -18,30 +18,86 @@ abstract class FormTemplater
         $field->setAttribute( 'class', $filter($css) );
     }
 
+    protected function _renderCheckBox( FormInput $field )
+    {
+        ob_start();
+        ?>
+        <label for="<?= $field->getName(); ?>">
+            <?= $field->render(); ?>
+            <?= $field->getLabel(); ?>
+        </label>
+        <?php
+        return ob_get_clean();
+    }
+
+    protected function _renderRadioGroup( FormInput $field )
+    {
+        // Get checked value.
+        $checked = $field->getCheckedValue();
+
+        ob_start();
+        ?>
+        <label>
+            <?= $field->getLabel(); ?>
+        </label><br>
+
+        <?php
+        $i = 1;
+        foreach( $field->getOptions() as $value => $label )
+        {
+            $elementId =  $field->getName() . '-' . $i;
+            $isChecked = $checked == $value ? ' checked="checked"' : '';
+            ?>
+            <label for="<?= $elementId; ?>">
+                <input type="radio" id="<?= $elementId; ?>" name="<?= $field->getName(); ?>" value="<?= $value; ?>"<?= $isChecked; ?>>
+                <?= $label; ?>
+            </label><br>
+            <?php
+            $i++;
+        }
+
+        return ob_get_clean();
+    }
+
+    protected function _renderDefaultField( FormInput $field )
+    {
+        ob_start();
+        ?>
+        <label for="<?= $field->getName(); ?>"><?= $field->getLabel(); ?></label><br>
+        <?= $field->render(); ?>
+        <?php
+        return ob_get_clean();
+    }
+
+
     public function renderField( FormInput $field )
     {
+        // Declare the output string.
         $output = '';
 
+        // Open the form field.
         $output .= "\t" . '<div class="form-field">' . "\n";
 
         switch( $field->getType() )
         {
+            // Render HTML.
+            case 'html':
+                $output .= $field->getValue();
+                break;
+
             case 'checkbox-boolean':
-                $output .= "\t\t" . '<label for="' . $field->getName() . '">' . "\n";
-                $output .= "\t\t\t" . $field->render() . "\n";
-                $output .= "\t\t\t" . $field->getLabel() . "\n";
-                $output .= "\t\t" . '</label>' . "\n";
+                $output .= $this->_renderCheckBox( $field );
+                break;
+
+            case 'radio':
+            case 'radio-boolean':
+                $output .= $this->_renderRadioGroup( $field );
                 break;
 
             default:
-                // Set the label.
-                if ( $field->getLabel() ) {
-                    $output .= "\t\t" . '<label for="' . $field->getName() . '">' . $field->getLabel() . '</label><br>' . "\n";
-                }
-                $output .= "\t\t" . $field->render() . "\n";
+                $output .= $this->_renderDefaultField( $field );
                 break;
         }
-
 
         $output .= "\t" . '</div>' . "\n";
 

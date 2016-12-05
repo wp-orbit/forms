@@ -2,6 +2,7 @@
 namespace WPOrbit\Forms;
 
 use WPOrbit\Forms\Inputs\FormInput;
+use WPOrbit\Forms\Inputs\HtmlBlock;
 
 class FormFields
 {
@@ -22,6 +23,17 @@ class FormFields
     {
         // Add the form input field.
         $this->fields[] = $formInput;
+
+        return $this;
+    }
+
+    public function addHtml( $content = '' )
+    {
+        $html = new HtmlBlock([
+            'content' => $content
+        ]);
+
+        $this->fields[] = $html;
 
         return $this;
     }
