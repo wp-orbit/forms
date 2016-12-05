@@ -18,6 +18,7 @@ abstract class FormInput
      * @var string Form input type
      */
     protected $type;
+
     /**
      * @var string Label content.
      */
@@ -152,6 +153,9 @@ abstract class FormInput
     {
         // Verify the input field is valid.
         $this->validateInput();
+
+        // Set 'widefat'.
+        $this->setAttribute( 'class', 'widefat' );
 
         // Return the rendered HTML.
         return "<{$this->tag} {$this->getAttributes()}/>";

@@ -11,18 +11,37 @@ abstract class FormTemplater
      */
     protected $form;
 
+    public function filterFieldClass( FormInput $field, $filter )
+    {
+        $css = $field->getAttribute( 'class' );
+
+        $field->setAttribute( 'class', $filter($css) );
+    }
+
     public function renderField( FormInput $field )
     {
         $output = '';
 
         $output .= "\t" . '<div class="form-field">' . "\n";
 
-        // Set the label.
-        if ( $field->getLabel() ) {
-            $output .= "\t\t" . '<label for="' . $field->getName() . '">' . $field->getLabel() . '</label><br>' . "\n";
+        switch( $field->getType() )
+        {
+            case 'checkbox-boolean':
+                $output .= "\t\t" . '<label for="' . $field->getName() . '">' . "\n";
+                $output .= "\t\t\t" . $field->render() . "\n";
+                $output .= "\t\t\t" . $field->getLabel() . "\n";
+                $output .= "\t\t" . '</label>' . "\n";
+                break;
+
+            default:
+                // Set the label.
+                if ( $field->getLabel() ) {
+                    $output .= "\t\t" . '<label for="' . $field->getName() . '">' . $field->getLabel() . '</label><br>' . "\n";
+                }
+                $output .= "\t\t" . $field->render() . "\n";
+                break;
         }
 
-        $output .= "\t\t" . $field->render() . "\n";
 
         $output .= "\t" . '</div>' . "\n";
 
