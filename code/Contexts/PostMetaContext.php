@@ -41,7 +41,6 @@ class PostMetaContext extends FormContext
                     $field->setCheckedValue( $meta );
                     break;
 
-
                 default:
                     // Set the field value.
                     $field->setValue( get_post_meta( $postId, $field->getName(), true ) );

@@ -3,6 +3,7 @@ namespace WPOrbit\Forms\Templates;
 
 use WPOrbit\Forms\Form;
 use WPOrbit\Forms\Inputs\FormInput;
+use WPOrbit\Forms\Inputs\MediaInput;
 
 abstract class FormTemplater
 {
@@ -14,7 +15,6 @@ abstract class FormTemplater
     public function filterFieldClass( FormInput $field, $filter )
     {
         $css = $field->getAttribute( 'class' );
-
         $field->setAttribute( 'class', $filter($css) );
     }
 
@@ -82,6 +82,16 @@ abstract class FormTemplater
         return ob_get_clean();
     }
 
+    public function _renderMediaInput( FormInput $field )
+    {
+        ob_start();
+        ?>
+        <label for="<?= $field->getName(); ?>"><?= $field->getLabel(); ?></label><br>
+        <?= $field->render(); ?>
+        <?php
+        return ob_get_clean();
+    }
+
     public function renderField( FormInput $field )
     {
         // Declare the output string.
@@ -108,6 +118,11 @@ abstract class FormTemplater
             case 'radio':
             case 'radio-boolean':
                 $output .= $this->_renderRadioGroup( $field );
+                break;
+
+            case 'media-input':
+            case 'multiple-media-input':
+                $output .= $this->_renderMediaInput( $field );
                 break;
 
             default:

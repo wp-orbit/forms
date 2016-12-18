@@ -6,11 +6,11 @@ namespace WPOrbit\Forms\Inputs;
  *
  * Has a wrapper built into FormFields class.
  *
- * Class HtmlBlock
+ * Class HtmlInput
  * @package WPOrbit\Forms\Inputs
  * @see FormFields;
  */
-class HtmlBlock extends FormInput
+class HtmlInput extends FormInput
 {
     /**
      * HtmlBlock constructor.

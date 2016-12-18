@@ -2,7 +2,7 @@
 namespace WPOrbit\Forms;
 
 use WPOrbit\Forms\Inputs\FormInput;
-use WPOrbit\Forms\Inputs\HtmlBlock;
+use WPOrbit\Forms\Inputs\HtmlInput;
 
 class FormFields
 {
@@ -29,7 +29,7 @@ class FormFields
 
     public function addHtml( $content = '' )
     {
-        $html = new HtmlBlock([
+        $html = new HtmlInput([
             'content' => $content
         ]);
 
