@@ -67,7 +67,7 @@ class MultipleMediaInput extends FormInput
             $imageUrl = wp_get_attachment_image_src( $imageId, $this->previewSize )[0];
             ?>
             <div class="image-item" data-id="<?= $imageId; ?>">
-                <img src="<?= $imageUrl; ?>">
+                <img src="<?= $imageUrl; ?>"><br>
                 <button type="button" class="button remove-media">Remove</button>
             </div>
             <?php
@@ -169,7 +169,7 @@ class MultipleMediaInput extends FormInput
                         // Set image string.
                         var imageString = '' +
                             '<div class="image-item" data-id="' + image.id + '">' +
-                                '<img src="' + url + '">' +
+                                '<img src="' + url + '"><br>' +
                                 '<button class="button remove-media">Remove</button>' +
                             '</div>';
 
@@ -230,6 +230,20 @@ class MultipleMediaInput extends FormInput
         <?php
     }
 
+    public function style()
+    {
+        ?>
+        <style>
+            div.image-item {
+                display: inline-block;
+                border: 5px solid #f1f1f1;
+                background-color: white;
+                margin: 5px;
+            }
+        </style>
+        <?php
+    }
+
     /**
      * MediaInput constructor.
      * @param array $args
@@ -242,10 +256,12 @@ class MultipleMediaInput extends FormInput
 
         add_action( 'admin_footer', function() {
             $this->script();
+            $this->style();
         });
 
         add_action( 'wp_footer', function() {
             $this->script();
+            $this->style();
         });
     }
 }
