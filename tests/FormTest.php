@@ -32,7 +32,7 @@ class FormTest extends \WPOrbit\Tests\TestCase
         ));
     }
 
-    public function testCanDoFormFields()
+    public function testCanRenderFormFields()
     {
         dump( $this->form->render() );
     }

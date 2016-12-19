@@ -130,6 +130,7 @@ class MultipleMediaInput extends FormInput
                         }
                     });
 
+                    // Get IDs from value="" attribute.
                     function getIds() {
                         var val = input.val().trim();
                         if ( '' == val ) {
@@ -138,6 +139,7 @@ class MultipleMediaInput extends FormInput
                         return input.val().trim().split(',');
                     }
 
+                    // Add an ID.
                     function addId(id) {
                         if ( '' == id ) {
                             return;
@@ -147,6 +149,7 @@ class MultipleMediaInput extends FormInput
                         input.val( ids.join(',') );
                     }
 
+                    // Remove an ID.
                     function removeId(id) {
                         // Get IDs.
                         var ids = getIds();
@@ -156,18 +159,7 @@ class MultipleMediaInput extends FormInput
                         input.val( ids.join(',') );
                     }
 
-                    function bindButtons() {
-                        var buttons = $('#<?= $this->getName(); ?>-preview-container').find('.remove-media');
-                        buttons.on( 'click', function(e) {
-
-                            var button = $(e.target),
-                                id = button.parent().data('id');
-
-                            removeId( id );
-
-                        });
-                    }
-
+                    // Add an image.
                     function addImage(image) {
 
                         // Get image URL.
@@ -185,6 +177,26 @@ class MultipleMediaInput extends FormInput
                         previewContainer.append( imageString );
                     }
 
+                    // Bind button callbacks.
+                    function bindButtons() {
+                        var removeButtons = $('#<?= $this->getName(); ?>-preview-container').find('.remove-media');
+                        removeButtons.on( 'click', function(e) {
+                            var button = $(e.target),
+                                id = button.parent().data('id');
+                            removeId( id );
+                        });
+
+                        $( "#<?= $this->getName(); ?>-preview-container" ).sortable({
+                            update: function(event, ui) {
+                                var order = [];
+                                _.each( $( "#<?= $this->getName(); ?>-preview-container .image-item" ), function(item) {
+                                    order.push( $(item).data('id') );
+                                });
+                                input.val( order.join(',') );
+                            }
+                        });
+                        $( "#<?= $this->getName(); ?>-preview-container" ).disableSelection();
+                    }
 
                     // Open wp.media.
                     selectButton.on( 'click', function(e) {
@@ -206,8 +218,10 @@ class MultipleMediaInput extends FormInput
                         bindButtons();
                     });
 
+                    // Bind buttons on load.
                     bindButtons();
 
+                    // Preload frame state.
                     frame.state();
                     frame.lastState();
                 });
@@ -222,7 +236,7 @@ class MultipleMediaInput extends FormInput
      */
     public function __construct(array $args = [])
     {
-        parent::__construct($args);
+        parent::__construct( $args );
 
         $this->setAttribute( 'type', 'hidden' );
 
