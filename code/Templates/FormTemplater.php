@@ -15,7 +15,7 @@ abstract class FormTemplater
     public function filterFieldClass( FormInput $field, $filter )
     {
         $css = $field->getAttribute( 'class' );
-        $field->setAttribute( 'class', $filter($css) );
+        $field->setAttribute( 'class', $filter( $css ) );
     }
 
     protected function _renderCheckBox( FormInput $field )
@@ -43,13 +43,14 @@ abstract class FormTemplater
 
         <?php
         $i = 1;
-        foreach( $field->getOptions() as $value => $label )
+        foreach ( $field->getOptions() as $value => $label )
         {
-            $elementId =  $field->getName() . '-' . $i;
+            $elementId = $field->getName() . '-' . $i;
             $isChecked = $checked == $value ? ' checked="checked"' : '';
             ?>
             <label for="<?= $elementId; ?>">
-                <input type="radio" id="<?= $elementId; ?>" name="<?= $field->getName(); ?>" value="<?= $value; ?>"<?= $isChecked; ?>>
+                <input type="radio" id="<?= $elementId; ?>" name="<?= $field->getName(); ?>"
+                       value="<?= $value; ?>"<?= $isChecked; ?>>
                 <?= $label; ?>
             </label><br>
             <?php
@@ -72,12 +73,14 @@ abstract class FormTemplater
     protected function _renderColorPicker( FormInput $field )
     {
         ob_start();
-        $field->setAttribute('style', 'width: 200px; position: relative; top: -10px;');
+        $field->setAttribute( 'style', 'width: 200px; position: relative; top: -10px;' );
         ?>
         <label for="<?= $field->getName(); ?>"><?= $field->getLabel(); ?></label><br>
         <div id="<?= $field->getName(); ?>-preview" style="display: inline-block;"></div>
         <?= $field->render(); ?>
-        <button id="<?= $field->getName(); ?>-hide-preview" type="button" class="button" style="display: none;">Hide Preview</button>
+        <button id="<?= $field->getName(); ?>-hide-preview" type="button" class="button" style="display: none;">Hide
+            Preview
+        </button>
         <?php
         return ob_get_clean();
     }
@@ -87,6 +90,7 @@ abstract class FormTemplater
         ob_start();
         ?>
         <label for="<?= $field->getName(); ?>"><?= $field->getLabel(); ?></label><br>
+        <hr>
         <?= $field->render(); ?>
         <?php
         return ob_get_clean();
@@ -100,7 +104,7 @@ abstract class FormTemplater
         // Open the form field.
         $output .= "\t" . '<div class="form-field">' . "\n";
 
-        switch( $field->getType() )
+        switch ( $field->getType() )
         {
             case 'color-picker':
                 $output .= $this->_renderColorPicker( $field );
@@ -140,7 +144,7 @@ abstract class FormTemplater
         $output = [];
 
         // Loop through this form's fields.
-        foreach( $this->form->fields->all() as $field )
+        foreach ( $this->form->fields->all() as $field )
         {
             /** @var $field FormInput */
             $output[] = $this->renderField( $field );
@@ -155,12 +159,12 @@ abstract class FormTemplater
         $actionString = $this->form->action ? ' action="' . $this->form->action . '"' : '';
         $idString = $this->form->id ? ' id="' . $this->form->id . '"' : '';
 
-        $output =
-            "<form" .
-            $idString .
-            $actionString .
-            $methodString .
-            ">\n";
+        $output
+            = "<form" .
+              $idString .
+              $actionString .
+              $methodString .
+              ">\n";
 
         return $output;
     }
@@ -172,6 +176,7 @@ abstract class FormTemplater
 
     /**
      * Returns the token and closes the form.
+     *
      * @return string
      */
     public function getFormFooter()

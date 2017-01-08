@@ -234,11 +234,17 @@ class MultipleMediaInput extends FormInput
     {
         ?>
         <style>
-            div.image-item {
+            .image-item {
                 display: inline-block;
                 border: 5px solid #f1f1f1;
                 background-color: white;
                 margin: 5px;
+            }
+            .image-item:first-of-type {
+                margin-left: 0;
+            }
+            .image-item:last-of-type {
+                margin-right: 0;
             }
         </style>
         <?php
