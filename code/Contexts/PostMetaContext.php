@@ -56,6 +56,12 @@ class PostMetaContext extends FormContext
      */
     public function save($postId)
     {
+        // Do nothing if not saving...
+        if ( ! isset( $_POST ) || empty( $_POST ) )
+        {
+            return;
+        }
+
         // Get form fields.
         $fields = $this->form->getSaveFields();
 
