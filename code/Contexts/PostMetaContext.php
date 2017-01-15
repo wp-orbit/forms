@@ -65,9 +65,10 @@ class PostMetaContext extends FormContext
         // Get form fields.
         $fields = $this->form->getSaveFields();
 
+        // Check if nonce key is set.
         if ( ! isset( $_POST[ $fields['nonceKey'] ] ) )
         {
-            throw new \Exception( "No security token supplied." );
+            return;
         }
 
         if ( ! wp_verify_nonce( $_POST[ $fields['nonceKey'] ], $fields['nonceAction'] ) )

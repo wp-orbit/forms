@@ -3,17 +3,8 @@ namespace WPOrbit\Forms\Inputs;
 
 class SelectPostsInput extends FormInput
 {
-    public function __construct( $args = [] )
+    protected function initialize()
     {
-        // Parent constructor.
-        parent::__construct( $args );
-
-        // Option type.
-        $this->type = 'select';
-
-        // Set attribute.
-        $this->setAttribute( 'type', 'select' );
-
         // Post type.
         $postType = isset( $args[ 'postType' ] ) ? $args[ 'postType' ] : 'post';
 
@@ -41,6 +32,23 @@ class SelectPostsInput extends FormInput
         $this->setOptions( $options );
     }
 
+    public function __construct( $args = [] )
+    {
+        // Parent constructor.
+        parent::__construct( $args );
+
+        // Option type.
+        $this->type = 'select';
+
+        // Set attribute.
+        $this->setAttribute( 'type', 'select' );
+
+        add_action( 'init', function()
+        {
+            $this->initialize();
+        });
+    }
+
     /**
      * @return string
      */
@@ -57,7 +65,7 @@ class SelectPostsInput extends FormInput
         ?>
         <select <?= $this->getAttributes(); ?>>
             <?php foreach( $this->options as $option ) : ?>
-            <option value="<?= $option['value']; ?>"><?= $option->value; ?></option>
+            <option value="<?= $option['value']; ?>"><?= $option['label']; ?></option>
             <?php endforeach; ?>
         </select>
         <?php
