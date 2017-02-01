@@ -45,6 +45,19 @@ abstract class FormInput
     protected $options = [];
 
     /**
+     * @var string Container column width.
+     */
+    protected $columns = 'small-12';
+
+    /**
+     * @return int|string
+     */
+    public function getColumns()
+    {
+        return $this->columns;
+    }
+
+    /**
      * @return array
      */
     public function getOptions()
@@ -168,6 +181,10 @@ abstract class FormInput
         if ( isset( $args['class'] ) ) {
             $this->setAttribute( 'class', $args['class'] );
         }
+
+        if ( isset( $args['columns'] ) ) {
+            $this->columns = $args['columns'];
+        }
     }
 
     protected function prepareAttributes()
@@ -189,6 +206,16 @@ abstract class FormInput
         return $this->attributes->render( $exclude );
     }
 
+    protected function beforeRender()
+    {
+
+    }
+
+    protected function afterRender()
+    {
+
+    }
+
     /**
      * @return string Get input element HTML.
      */
@@ -201,6 +228,9 @@ abstract class FormInput
         $this->setAttribute( 'class', 'widefat' );
 
         // Return the rendered HTML.
-        return "<{$this->tag} {$this->getAttributes()}/>";
+        return
+            $this->beforeRender() .
+            "<{$this->tag} {$this->getAttributes()}/>" .
+            $this->afterRender();
     }
 }

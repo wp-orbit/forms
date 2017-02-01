@@ -27,6 +27,10 @@ class FormFields
         return $this;
     }
 
+    /**
+     * @param string $content
+     * @return $this
+     */
     public function addHtml( $content = '' )
     {
         $html = new HtmlInput([
@@ -35,6 +39,26 @@ class FormFields
 
         $this->fields[] = $html;
 
+        return $this;
+    }
+
+    /**
+     * Open a new row.
+     * @return $this
+     */
+    public function openRow()
+    {
+        $this->addHtml( '<div class="row">' );
+        return $this;
+    }
+
+    /**
+     * Close a row.
+     * @return $this
+     */
+    public function closeRow()
+    {
+        $this->addHtml( '</div>' );
         return $this;
     }
 }

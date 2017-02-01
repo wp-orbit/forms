@@ -38,6 +38,11 @@ class Form
      */
     public $action = '';
 
+    /**
+     * @var string The type of column framework for wrapping fields.
+     */
+    public $columnFramework = 'foundation';
+
     public function __construct( $id = '' )
     {
         $this->id = $id;

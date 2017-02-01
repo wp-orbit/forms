@@ -102,8 +102,6 @@ abstract class FormTemplater
         $output = '';
 
         // Open the form field.
-        $output .= "\t" . '<div class="form-field">' . "\n";
-
         switch ( $field->getType() )
         {
             case 'color-picker':
@@ -134,9 +132,38 @@ abstract class FormTemplater
                 break;
         }
 
-        $output .= "\t" . '</div>' . "\n";
-
         return $output;
+    }
+
+    public function renderBeforeField( FormInput $field )
+    {
+        // Do nothing for 'html' types.
+        if ( 'html' == $field->getType() ) {
+            return '';
+        }
+
+        // Column width.
+        $width = $field->getColumns();
+
+        if ( 'foundation' == $this->form->columnFramework ) {
+            return "<div class='columns {$width}'>";
+        }
+
+        if ( 'bootstrap' == $this->form->columnFramework ) {
+            return "<div class='{$width}'>";
+        }
+
+        return '<div>';
+    }
+
+    public function renderAfterField( FormInput $field )
+    {
+        // Do nothing for 'html' types.
+        if ( 'html' == $field->getType() ) {
+            return '';
+        }
+
+        return '</div>';
     }
 
     public function renderItems()
@@ -147,7 +174,9 @@ abstract class FormTemplater
         foreach ( $this->form->fields->all() as $field )
         {
             /** @var $field FormInput */
+            $output[] = $this->renderBeforeField( $field );
             $output[] = $this->renderField( $field );
+            $output[] = $this->renderAfterField( $field );
         }
 
         return implode( '', $output );
